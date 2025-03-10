@@ -252,20 +252,14 @@ does this command."
 		;; Don't use `thing-at-point', because it has troubles when
 		;; point is at a whitespace.  There's an easy workaround, but
 		;; it is not worth it.
-		(ctune-symbol-at-point-strict t)))
-	with-parens)
+		(ctune-symbol-at-point-strict t))))
     (if name
 	(save-excursion
 	  (forward-symbol 1)
 	  ;; Account for possible white space after the name of the macro,
 	  ;; or even a escaped newline.
 	  (skip-chars-forward "[:space:]\\\\\n")
-	  (setq with-parens (eq (char-after) ?\())
-	  (ctune--add-noise-macro name
-				  (if with-parens
-				      'c-noise-macro-with-parens-names
-				    'c-noise-macro-names)
-				  removep))
+	  (ctune--add-noise-macro name (eq (char-after) ?\() removep))
       (user-error "No symbol at point!"))))
 
 (defun ctune-save-noise-macros ()
